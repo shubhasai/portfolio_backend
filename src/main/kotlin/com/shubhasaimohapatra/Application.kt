@@ -12,12 +12,9 @@ import java.io.FileInputStream
 import java.util.*
 
 fun main() {
-    val port = System.getenv("PORT")?.toInt() ?: 8080 // Default to 8080 if not set
-    val host = System.getenv("HOST") ?: "0.0.0.0" // Default to "0.0.0.0"
-
-    embeddedServer(Netty, port = port, host = host, module = Application::module)
+    val port = System.getenv("PORT")?.toInt() ?: 8080 // Default to 8080 if PORT is not set
+    embeddedServer(Netty, port = port, host = "127.0.0.1", module = Application::module)
         .start(wait = true)
-
 }
 
 fun Application.module() {
@@ -26,9 +23,13 @@ fun Application.module() {
     propertiesPath?.let { path ->
         FileInputStream(path).use { properties.load(it) }
     }
-    val url = System.getenv("databaseurl")?: ""
+    val url = properties.getProperty("databaseurl")
     if(url!=null){
         DatabaseUrl.url = url
     }
+    else{
+        DatabaseUrl.url = System.getenv("databaseurl")
+    }
+    configureSerialization()
     configureRouting()
 }
