@@ -12,8 +12,9 @@ import java.io.FileInputStream
 import java.util.*
 
 fun main() {
-    val port = System.getenv("PORT")?.toInt() ?: 8080 // Default to 8080 if PORT is not set
-    embeddedServer(Netty, port = port, host = "127.0.0.1", module = Application::module)
+    val port = System.getenv("PORT")?.toInt() ?: 8080 // Default to 8080 if not set
+    val host = System.getenv("HOST") ?: "127.0.0.1" // Default to "0.0.0.0"
+    embeddedServer(Netty, port = port, host = host, module = Application::module)
         .start(wait = true)
 }
 
