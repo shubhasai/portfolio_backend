@@ -26,7 +26,7 @@ fun Application.module() {
     propertiesPath?.let { path ->
         FileInputStream(path).use { properties.load(it) }
     }
-    val url = properties.getProperty("databaseurl")
+    val url = System.getenv("databaseurl")?: ""
     if(url!=null){
         DatabaseUrl.url = url
     }
