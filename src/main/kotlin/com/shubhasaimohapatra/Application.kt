@@ -20,15 +20,14 @@ fun main() {
 
 fun Application.module() {
     val properties = Properties()
-    val propertiesPath = this::class.java.classLoader.getResource("local.properties")?.path
-    propertiesPath?.let { path ->
-        FileInputStream(path).use { properties.load(it) }
-    }
-    val url = properties.getProperty("databaseurl")
-    if(url!=null){
-        DatabaseUrl.url = url
-    }
-    else{
+
+// Use getResourceAsStream to load the properties file
+    val inputStream = this::class.java.classLoader.getResourceAsStream("local.properties")
+    if (inputStream != null) {
+        properties.load(inputStream)
+        DatabaseUrl.url = properties.getProperty("databaseurl")
+    } else {
+        // Fallback to environment variable if local.properties is not found
         DatabaseUrl.url = System.getenv("databaseurl")
     }
     configureSerialization()
