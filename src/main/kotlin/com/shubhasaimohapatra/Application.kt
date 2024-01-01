@@ -2,9 +2,11 @@ package com.shubhasaimohapatra
 
 import com.shubhasaimohapatra.models.ProjectDetails
 import com.shubhasaimohapatra.plugins.*
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.cors.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +31,9 @@ fun Application.module() {
     } else {
         // Fallback to environment variable if local.properties is not found
         DatabaseUrl.url = System.getenv("DATABASEURL")
+    }
+    install(CORS) {
+        anyHost()
     }
     configureSerialization()
     configureRouting()

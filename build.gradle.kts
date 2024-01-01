@@ -37,5 +37,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.0")
+    implementation("io.ktor:ktor-server-cors")
+
 //    implementation ("org.litote.kmongo:kmongo:4.11.0")
 }
